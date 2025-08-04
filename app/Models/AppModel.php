@@ -9,8 +9,9 @@ class AppModel extends Model
     protected $table      = 'app';
     protected $primaryKey = 'idapp';
     protected $allowedFields = [
-        'function','name','img','idmenu','leaf','visible','valid','created_at','updated_at'
+        'function','name','img','idmenu','leaf','visible','valid'
     ];
+     protected $returnType = 'array';
     public    $useTimestamps = false;
 
     /**
@@ -20,17 +21,15 @@ class AppModel extends Model
      * @param int[] $ids
      * @return array
      */
-    public function getAppsByIds(array $ids): array
+    public function getByIds(array $ids): array
     {
         if (empty($ids)) {
             return [];
         }
 
-        return $this
-            ->whereIn('idapp', $ids)
-            ->where('valid', 1)
-            ->orderBy('idmenu', 'ASC')
-            ->orderBy('name', 'ASC')
-            ->findAll();
+         return $this->whereIn('idapp',$ids)
+                    ->where('visible',1)
+                    ->orderBy('idapp','ASC')
+                    ->findAll();
     }
 }

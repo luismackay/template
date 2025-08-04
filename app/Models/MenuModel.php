@@ -9,7 +9,14 @@ class MenuModel extends Model
     protected $table      = 'menu';
     protected $primaryKey = 'idmenu';
     protected $allowedFields = [
-        'name', 'img', 'valid', 'orden', 'created_at', 'updated_at'
+        'name', 'img', 'valid', 'orden'
     ];
+    protected $returnType = 'array';
     public    $useTimestamps = false;
+
+
+    public function getAllOrdered()
+    {
+        return $this->orderBy('orden','ASC')->findAll();
+    }
 }

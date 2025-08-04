@@ -23,7 +23,7 @@
           <a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
             <img src="<?= base_url('assets/img/user/user-13.jpg') ?>" alt="" /> 
             <span>
-              <span class="d-none d-md-inline fw-bold"><?= esc(session('first_name')) ?></span>
+              <span class="d-none d-md-inline fw-bold"><?= esc(session('name')) ?></span>
               <b class="caret"></b>
             </span>
           </a>

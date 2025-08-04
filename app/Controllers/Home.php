@@ -16,36 +16,44 @@ class Home extends Controller
             return redirect()->to('login');
         }
 
-        // 2) Cargo los modelos
-        $roleModel = new RoleModel();
-        $appModel  = new AppModel();
-        $menuModel = new MenuModel();
+         $userLevel = $session->get('idlevel');
 
-        // 3) Obtengo el nivel del usuario
-        $idlevel = $session->get('idlevel');
+         // 1) IDs de apps permitidas
+        $appIds    = (new RoleModel())
+                      ->getAppIdsForLevel($userLevel);
 
-        // 4) Recupero los ID de app permitidos
-        $appIds = $roleModel->getAllowedAppIds((int)$idlevel);
+        // 2) Apps visibles
+        $apps      = (new AppModel())
+                      ->getByIds($appIds);
 
-        // 5) Recupero las apps y los menús
-        $apps      = $appModel->getAppsByIds($appIds);
-        $menus     = $menuModel->where('valid', 1)
-                               ->orderBy('orden', 'ASC')
-                               ->findAll();
+        // 3) Menús ordenados
+        $menusRaw  = (new MenuModel())
+                      ->getAllOrdered();
 
-        // 6) Agrupo apps por menú
-        $appsByMenu = [];
-        foreach ($apps as $app) {
-            $appsByMenu[$app['idmenu']][] = $app;
+        //var_dump($menusRaw); exit();
+        // 4) Agrupo apps bajo cada menú
+        $menus = [];
+        foreach ($menusRaw as $m) {
+             $menus[$m['idmenu']] = [
+                'menu' => $m,
+                'apps' => [],
+            ];
         }
-        
+        foreach ($apps as $app) {
+            // asegúrate de que la FK en tu tabla app sea 'menu_id'
+            $mid = $app['idmenu'];
+            if (isset($menus[$mid])) {
+                $menus[$mid]['apps'][] = $app;
+            }
+        }
+        // Elimino menús vacíos
+        $menus = array_filter($menus, fn($e) => count($e['apps']) > 0);
 
-        // 7) Paso todo al template
+        // 5) Paso todo a la vista
         return view('welcome', [
-            'titulo'     => 'Bienvenido',
-            'menus'      => $menus,
-            'appsByMenu' => $appsByMenu,
-            'session'    => $session,
+            'titulo' => SYSTEM_NAME,
+            'menus'  => $menus,
+            'session'=> $session,
         ]);
 
 

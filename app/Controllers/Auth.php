@@ -46,7 +46,7 @@ class Auth extends Controller
                     'last_name'  => $usuario['last_name'],
                     'idlevel'    => $usuario['idlevel'],
                      'level_name' => $level['name'] ?? 'Sin nivel',
-                     'name'        => $usuario['first_name'].' '.$usuario['last_name']
+                     'name'        => $usuario['first_name'].' '.$usuario['last_name'],
                     'logueado' => true
                 ]);
                 

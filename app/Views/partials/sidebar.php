@@ -1,3 +1,8 @@
+<?php
+    $uri        = service('uri')->getPath();       // p.ej. "users/edit"
+    $firstShown = false;
+?>
+
 <!-- BEGIN #sidebar -->
     <div id="sidebar" class="app-sidebar" data-bs-theme="dark">
       <!-- BEGIN scrollbar -->
@@ -21,132 +26,45 @@
           </div>
         
           <div class="menu-header">Menú Principal</div>
-          <div class="menu-item has-sub active">
-            <a href="javascript:;" class="menu-link">
-              <div class="menu-icon">
-                <i class="fa fa-sitemap"></i>             </div>
-              <div class="menu-text">Dashboard</div>
-              <div class="menu-caret"></div>
-            </a>
-            <div class="menu-submenu">
-              <div class="menu-item active">
-                <a href="index.html" class="menu-link"><div class="menu-text">Dashboard v1</div></a>
-              </div>
-              <div class="menu-item">
-                <a href="index_v2.html" class="menu-link"><div class="menu-text">Dashboard v2</div></a>
-              </div>
-              <div class="menu-item">
-                <a href="index_v3.html" class="menu-link"><div class="menu-text">Dashboard v3</div></a>
+         <?php foreach ($menus as $entry):
+              $menu = $entry['menu'];   // array con campos de menú
+              $apps = $entry['apps'];   // array con apps
+
+              // ¿Alguna app coincide con la URI actual?
+              $hasActive = false;
+              foreach ($apps as $a) {
+                  if (trim($uri, '/') === trim($a['function'], '/')) {
+                      $hasActive = true;
+                      break;
+                  }
+              }
+
+              // Determino si este grupo va “activo”
+              $isActiveGroup = $hasActive || (!$firstShown && !$hasActive);
+              if (!$firstShown && !$hasActive) {
+                  $firstShown = true;
+              }
+          ?>
+            <div class="menu-item has-sub <?= $isActiveGroup ? 'active' : '' ?>">
+              <a href="javascript:;" class="menu-link">
+                <div class="menu-icon">
+                  <i class="fa <?= esc($menu['img']) ?>"></i>
+                </div>
+                <div class="menu-text"><?= esc($menu['name']) ?></div>
+                <div class="menu-caret"></div>
+              </a>
+              <div class="menu-submenu" style="<?= $isActiveGroup ? 'display:block;' : '' ?>">
+                <?php foreach ($apps as $a): ?>
+                  <div class="menu-item <?= trim($uri, '/') === trim($a['function'], '/') ? 'active' : '' ?>">
+                    <a href="<?= base_url($a['function']) ?>" class="menu-link">
+                      <div class="menu-text"><?= esc($a['name']) ?></div>
+                    </a>
+                  </div>
+                <?php endforeach; ?>
               </div>
             </div>
-          </div>
+          <?php endforeach; ?>
          
-        
-       
-       
-      
-          <div class="menu-item has-sub">
-            <a href="javascript:;" class="menu-link">
-              <div class="menu-icon">
-                <i class="fa fa-cubes"></i>
-              </div>
-              <div class="menu-text">Version <span class="menu-label">NEW</span></div>
-              <div class="menu-caret"></div>
-            </a>
-            <div class="menu-submenu">
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/html/" class="menu-link">
-                  <div class="menu-text">HTML</div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/ajax/" class="menu-link">
-                  <div class="menu-text">AJAX</div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/angularjs/" class="menu-link">
-                  <div class="menu-text">ANGULAR JS</div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/angularjs19/" class="menu-link">
-                  <div class="menu-text">ANGULAR JS 19</div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="javascript:alert('Laravel 11 Version only available in downloaded version.');" class="menu-link">
-                  <div class="menu-text">LARAVEL 11</div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/vue3/" class="menu-link">
-                  <div class="menu-text">VUE 3 + Vite JS</div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/react/" class="menu-link">
-                  <div class="menu-text">REACT 19</div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="javascript:alert('.NET Core MVC Version only available in downloaded version.');" class="menu-link">
-                  <div class="menu-text">ASP.NET <i class="fa fa-paper-plane text-theme"></i></div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="javascript:alert('Django Version only available in downloaded version.');" class="menu-link">
-                  <div class="menu-text">DJANGO <i class="fa fa-paper-plane text-theme"></i></div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/svelte/" class="menu-link">
-                  <div class="menu-text">SVELTE <i class="fa fa-paper-plane text-theme"></i></div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/material/" class="menu-link">
-                  <div class="menu-text">MATERIAL DESIGN</div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/apple/" class="menu-link">
-                  <div class="menu-text">APPLE DESIGN</div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/transparent/" class="menu-link">
-                  <div class="menu-text">TRANSPARENT DESIGN <i class="fa fa-paper-plane text-theme"></i></div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/facebook/" class="menu-link">
-                  <div class="menu-text">FACEBOOK DESIGN <i class="fa fa-paper-plane text-theme"></i></div>
-                </a>
-              </div>
-              <div class="menu-item">
-                <a href="https://seantheme.com/color-admin/admin/google/" class="menu-link">
-                  <div class="menu-text">GOOGLE DESIGN <i class="fa fa-paper-plane text-theme"></i></div>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="menu-item has-sub">
-            <a href="javascript:;" class="menu-link">
-              <div class="menu-icon">
-                <i class="fa fa-medkit"></i>
-              </div>
-              <div class="menu-text">Helper</div>
-              <div class="menu-caret"></div>
-            </a>
-            <div class="menu-submenu">
-              <div class="menu-item">
-                <a href="helper_css.html" class="menu-link">
-                  <div class="menu-text">Predefined CSS Classes</div>
-                </a>
-              </div>
-            </div>
-          </div>
         
           
           <!-- BEGIN minify-button -->
