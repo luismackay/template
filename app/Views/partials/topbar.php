@@ -1,25 +1,45 @@
 <?php
 // app/Views/partials/topbar.php
 ?>
+<!-- BEGIN #header -->
 <div id="header" class="app-header">
+  <!-- BEGIN navbar-header -->
   <div class="navbar-header">
-    <a href="<?= base_url('/') ?>" class="navbar-brand">CORE <b>SUNSCREEN</b></a>
-    <button type="button" class="navbar-toggler mobile-toggler" data-click="sidebar-toggled">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+     <a href=<?php echo base_url();?>main/index class="navbar-brand">
+            <img src="<?= base_url('assets/img/home3.png') ?>" alt="Inicio" style="width: 24px; height: 24px; margin-right: 10px;">
+            <b style="font-size:120%"><?= SYSTEM_NAME ?> </b><span class="semi-bold text-success"> <?= SYSTEM_NAME2 ?></span></span></a>
+                        <span class="hidden-xs"><?php //echo $this->session->userdata('nombre_empresa'); ?></span>
+    <button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
     </button>
   </div>
-  <ul class="navbar-nav ms-auto">
-    <li class="nav-item dropdown navbar-user">
-      <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-        <?= session('first_name') . ' ' . session('last_name') ?> (<?= session('level_name') ?>)
-      </a>
-      <ul class="dropdown-menu dropdown-menu-end me-1>
-        <li><a class="dropdown-item" href="<?= base_url('usuario/cambiar-clave') ?>">Cambiar Contraseña</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="<?= base_url('logout') ?>">Cerrar sesión</a></li>
-      </ul>
-    </li>
-  </ul>
-</div>
+  <!-- END navbar-header -->
+  <!-- BEGIN header-nav -->
+      <div class="navbar-nav">
+        
+        <div class="navbar-item navbar-user dropdown">
+          <a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+            <img src="<?= base_url('assets/img/user/user-13.jpg') ?>" alt="" /> 
+            <span>
+              <span class="d-none d-md-inline fw-bold"><?= esc(session('first_name')) ?></span>
+              <b class="caret"></b>
+            </span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end me-1">
+            <a href="extra_profile.html" class="dropdown-item">Edit Profile</a>
+            <a href="email_inbox.html" class="dropdown-item d-flex align-items-center">
+              Inbox
+              <span class="badge bg-danger rounded-pill ms-auto pb-4px">2</span> 
+            </a>
+            <a href="calendar.html" class="dropdown-item">Calendar</a>
+            <a href="extra_settings_page.html" class="dropdown-item">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a href="<?=base_url('auth/logout') ?>" class="dropdown-item">Log Out</a>
+          </div>
+        </div>
+      </div>
+      <!-- END header-nav -->
+    </div>
+    <!-- END #header -->

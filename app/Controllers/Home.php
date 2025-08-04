@@ -38,11 +38,10 @@ class Home extends Controller
         foreach ($apps as $app) {
             $appsByMenu[$app['idmenu']][] = $app;
         }
-        //var_dump($appsByMenu);
-        //exit;
+        
 
         // 7) Paso todo al template
-        return view('layouts/template', [
+        return view('welcome', [
             'titulo'     => 'Bienvenido',
             'menus'      => $menus,
             'appsByMenu' => $appsByMenu,
@@ -51,9 +50,5 @@ class Home extends Controller
 
 
     }
-    public function logout()
-    {
-        session()->destroy();
-        return redirect()->to('login');
-    }
+  
 }

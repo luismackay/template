@@ -7,10 +7,19 @@ use App\Models\LevelModel;
 
 class Auth extends Controller
 {
+    protected $helpers = ['form', 'url'];
+    protected $session;
+    protected $userModel;
+
+    public function __construct()
+    {
+        $this->session   = session();
+        $this->userModel = new UsuarioModel();
+    }
+
     public function login()
     {
         helper(['form', 'url']);
-        //var_dump(this->request->getMethod());
 
         if ($this->request->getMethod() === 'POST') {
             $identity = $this->request->getPost('identity');
@@ -37,6 +46,7 @@ class Auth extends Controller
                     'last_name'  => $usuario['last_name'],
                     'idlevel'    => $usuario['idlevel'],
                      'level_name' => $level['name'] ?? 'Sin nivel',
+                     'name'        => $usuario['first_name'].' '.$usuario['last_name']
                     'logueado' => true
                 ]);
                 
@@ -48,5 +58,11 @@ class Auth extends Controller
         }
 
         return view('auth/login', ['titulo' => 'Iniciar sesión']);
+    }
+
+      public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('login');
     }
 }
