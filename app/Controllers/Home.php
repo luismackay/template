@@ -48,12 +48,13 @@ class Home extends Controller
         }
         // Elimino menús vacíos
         $menus = array_filter($menus, fn($e) => count($e['apps']) > 0);
-
+        $firstApp = array_values($apps)[0];
         // 5) Paso todo a la vista
         return view('welcome', [
             'titulo' => SYSTEM_NAME,
             'menus'  => $menus,
             'session'=> $session,
+            'firstApp' => $firstApp
         ]);
 
 

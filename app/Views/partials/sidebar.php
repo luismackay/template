@@ -45,11 +45,20 @@
                   $firstShown = true;
               }
           ?>
+           <?php if ((int)$firstApp['leaf'] === 1): ?>
+            <!-- Menú hoja: sólo un enlace directo a la primera app -->
+            <div class="menu-item <?= $isActiveGroup ? 'active' : '' ?>">
+              <a href="<?= base_url($firstApp['function']) ?>" class="menu-link">
+                <div class="menu-icon"><i class="fa <?= esc($menu['img']) ?>"></i></div>
+                <div class="menu-text"><?= esc($menu['name']) ?></div>
+              </a>
+            </div>
+
+          <?php else: ?>
+            <!-- Menú padre: desplegable con todas las apps hijas -->
             <div class="menu-item has-sub <?= $isActiveGroup ? 'active' : '' ?>">
               <a href="javascript:;" class="menu-link">
-                <div class="menu-icon">
-                  <i class="fa <?= esc($menu['img']) ?>"></i>
-                </div>
+                <div class="menu-icon"><i class="fa <?= esc($menu['img']) ?>"></i></div>
                 <div class="menu-text"><?= esc($menu['name']) ?></div>
                 <div class="menu-caret"></div>
               </a>
@@ -63,7 +72,9 @@
                 <?php endforeach; ?>
               </div>
             </div>
-          <?php endforeach; ?>
+          <?php endif; ?>
+
+        <?php endforeach; ?>
          
         
           
