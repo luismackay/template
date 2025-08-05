@@ -1,14 +1,26 @@
 // Archivo: app/Views/auth/login.php
 <?= $this->extend('layouts/auth') ?>
 
-<?= $this->section('contenido') ?>
-  <h3 class="text-center">Inicio de Sesión</h3>
 
-  <?php if (session()->getFlashdata('error')): ?>
+<?= $this->section('contenido') ?>
+<div class="login-box">
+  <!-- aquí va el logo -->
+  <div class="login-header" style="text-align: center; margin-bottom: 1rem;">
+     <div class="login-logo-container">
+      <img 
+        src="<?= base_url('assets/img/logo11.png') ?>" 
+        alt="Logo" 
+        class="login-logo"
+      >
+    </div>
+   
+    <h2>Inicio de Sesión</h2>
+    <?php if (session()->getFlashdata('error')): ?>
     <div class="alert alert-danger">
       <?= session('error') ?>
     </div>
   <?php endif; ?>
+    </div>
 
   <form action="<?= site_url('login') ?>" method="post">
     <?= csrf_field() ?>
@@ -26,4 +38,11 @@
     </div>
     <button type="submit" class="btn btn-primary w-100">Ingresar</button>
   </form>
+  </div>
+  <!-- formulario -->
+</div>
+
+  
+
+  
 <?= $this->endSection() ?>

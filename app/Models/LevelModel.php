@@ -9,4 +9,5 @@ class LevelModel extends Model
     protected $primaryKey = 'idlevel';
     protected $allowedFields = ['name', 'description', 'valid'];
     public    $useTimestamps = false;
+     protected $returnType = 'array';
 }

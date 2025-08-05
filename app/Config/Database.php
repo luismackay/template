@@ -26,10 +26,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'localhost',
-        'username'     => 'root',
-        'password'     => '',
-        'database'     => 'casino',
+        'hostname'     => '192.140.57.116',
+        'username'     => 'bposystem_casino',
+        'password'     => 'cf9Ibr1JjbqVNshb',
+        'database'     => 'bposystem_casino',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,

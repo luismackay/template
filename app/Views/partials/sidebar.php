@@ -1,6 +1,6 @@
 <?php
     $uri        = service('uri')->getPath();       // p.ej. "users/edit"
-    $firstShown = false;
+    $firstShown = true;
 ?>
 
 <!-- BEGIN #sidebar -->
@@ -44,6 +44,8 @@
               if (!$firstShown && !$hasActive) {
                   $firstShown = true;
               }
+               // Toma la primera app para la lógica de leaf
+              $firstApp = array_values($apps)[0];
           ?>
            <?php if ((int)$firstApp['leaf'] === 1): ?>
             <!-- Menú hoja: sólo un enlace directo a la primera app -->
