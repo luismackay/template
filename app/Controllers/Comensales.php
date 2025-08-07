@@ -9,6 +9,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+
 class Comensales extends BaseController
 {
     /** @var array */
@@ -86,6 +87,7 @@ class Comensales extends BaseController
         echo view('comensales/create', $data);
     }
 
+    
     /**
      * Listado de los últimos 3 días
      */
@@ -107,5 +109,89 @@ class Comensales extends BaseController
         ];
 
         echo view('comensales/index', $data);
+    }
+    /**
+     * Endpoint AJAX para traer clientes (antes en Maincore)
+     */
+    public function traer_registro_ajax()
+    {
+       // var_dump("ENTRE"); exit();
+        // Obtén el JSON decodeado en un array
+        //$input = $this->request->getJSON(true);
+
+        // Sólo aceptamos POST
+        //$casino_id = isset($input['casino_id']) ? (int)$input['casino_id'] : 0;
+        //$fecha    = $input['fecha'] ?? '';
+
+        $casino_id = (int) $this->request->getPost('casino_id');
+        $fecha    = $this->request->getPost('fecha');
+
+        $model   = new ContadorComensalesModel();
+        $rows    = $model->traer_registro((int)$casino_id, $fecha, 5);
+         
+        
+        // Construcción de la tabla
+        $table = '';
+        if (! empty($rows)) {
+            $table  = '<table class="table table-striped text-nowrap" id="tabla-listado-ventas" width="100%">';
+            $table .= '<thead><tr class="info">
+                       <th>Casino</th>
+                       <th>Fecha</th>
+                       <th>Cantidad</th>
+                       <th>Estado</th>
+                       <th class="text-center"><i class="fas fa-cog text-primary"></i></th>
+                    </tr></thead><tbody>';
+            foreach ($rows as $v) {
+                
+                $table .= '<tr>'
+                        . '<td>'.esc($v['name']).'</td>'
+                        . '<td>'.esc($v['fecha']).'</td>'
+                        . '<td>'.esc($v['cantidad']).'</td>'
+                        . '<td>'.esc($v['estado']).'</td>'
+                        . '<td class="text-center">';
+                        if ($v['estado']=== 'Abierto'){
+                            $table .= '<button type="button" '
+                            . 'class="btn btn-primary btn-xs m-r-5 btn-edit-comensal" '
+                            . 'data-id="'.esc($v['id']).'" '
+                            . 'data-fecha="'.esc($v['fecha']).'" '
+                            . 'data-casino="'.esc($v['name']).'" '
+                            . 'data-cantidad="'.esc($v['cantidad']).'" '
+                            . 'data-toggle="tooltip" title="Editar Comensales">'
+                            . '<i class="fas fa-list-ol"></i></button>';
+                        }else{
+                            $table .= '
+                                <!-- Sin acción -->';
+                        }
+                    
+                
+            }
+
+            $table .= '</tbody></table>';
+        }
+
+        return $this->response->setJSON([
+            'table'                => $table
+        ]);
+    }
+    public function actualizar()
+    {
+        $id       = (int) $this->request->getPost('id');
+        $cantidad = (int) $this->request->getPost('cantidad');
+
+        $model = new ContadorComensalesModel();
+
+        if (! $model->find($id)) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Registro no encontrado'
+            ]);
+        }
+
+        $model->update($id, ['cantidad' => $cantidad, 'activo' => '1']);
+
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Cantidad actualizada correctamente'
+        ]);
     }
 }

@@ -16,6 +16,8 @@ $routes->group('comensales', function($r){
     $r->post('create','Comensales::create');
     $r->get('',       'Comensales::index');
 });
+$routes->post('comensales/traer_registro', 'Comensales::traer_registro_ajax');
+$routes->post('comensales/actualizar', 'Comensales::actualizar');
 
 $routes->group('inventario', function($r){
     $r->get('create', 'Inventario::create');

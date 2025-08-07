@@ -8,6 +8,10 @@
   <link href="<?= base_url('assets/css/vendor.min.css') ?>" rel="stylesheet" />
   <link href="<?= base_url('assets/css/default/app.min.css') ?>" rel="stylesheet" />
   <!-- ================== END core-css ================== -->
+  <link href="<?= base_url('assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css') ?>" rel="stylesheet" />
+<link href="<?= base_url('assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') ?>" rel="stylesheet" />
+
+
 </head>
 <body style="background:#2d445a0d">
   <!-- BEGIN #loader -->
@@ -125,7 +129,18 @@
   <script src="<?= base_url('assets/plugins/jvectormap-next/jquery-jvectormap.min.js') ?>"></script>
   <script src="<?= base_url('assets/plugins/jvectormap-content/world-mill.js') ?>"></script>
   <script src="<?= base_url('assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.js') ?>"></script>
-  
+
+  <script src="<?= base_url('assets/plugins/sweetalert/dist/sweetalert.min.js') ?>"></script>
+
+    
+<script src="<?= base_url('assets/plugins/datatables.net/js/dataTables.min.js') ?>"></script>
+<script src="<?= base_url('assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js') ?>"></script>
+<script src="<?= base_url('assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js') ?>"></script>
+<script src="<?= base_url('assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') ?>"></script>
   <!-- ================== END page-js ================== -->
+  <!-- ================== BEGIN per-page scripts ================== -->
+  <?= $this->renderSection('scripts') ?>
+  <!-- ================== END per-page scripts ================== -->
+  
 </body>
 </html>
